@@ -1,0 +1,57 @@
+version: "3.7"
+
+services:
+  hello:
+    container_name: hello
+    build:
+      context: hello
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    networks:
+      - myservices
+    logging:
+      driver: json-file
+      options:
+        max-size: "200k"
+        max-file: "10"
+
+  caddy:
+    image: caddy
+    container_name: caddy
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile
+    restart: unless-stopped
+    env_file:
+      - ./ydns.env
+    networks:
+      - myservices
+    logging:
+      driver: json-file
+      options:
+        max-size: "200k"
+        max-file: "10"
+  ydns-updater:
+    container_name: ydns_updater
+    build:
+      context: ./ydns-updater
+      dockerfile: Dockerfile
+    environment:
+      - ENABLE_IPV4=True
+      # - ENABLE_IPV6=True
+      - UPDATE_DELAY=300
+    restart: unless-stopped
+    network_mode: host
+    logging:
+      driver: json-file
+      options:
+        max-size: "200k"
+        max-file: "10"
+    env_file:
+      - ./ydns.env
+      - ./ydnspass.env
+
+networks:
+  myservices:
