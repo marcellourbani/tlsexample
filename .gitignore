@@ -1,3 +1,4 @@
 ydnspass.env
 .env
 website
+saprouter/binaries/*

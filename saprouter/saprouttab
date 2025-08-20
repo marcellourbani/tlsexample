@@ -1,0 +1,5 @@
+P * 192.168.42.1 3200
+P * 192.168.42.1 3300
+P * xps15old.muneb.lan 3200
+P * xps15old.muneb.lan 3300
+D * * *

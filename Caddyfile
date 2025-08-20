@@ -1,3 +1,0 @@
-{$DOMAIN1} {
-   reverse_proxy hello:8000
-}

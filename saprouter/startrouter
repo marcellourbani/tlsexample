@@ -1,0 +1,4 @@
+#!/bin/bash
+mkfifo saprouterlog
+cat saprouterlog &
+saprouter -r -G saprouterlog
