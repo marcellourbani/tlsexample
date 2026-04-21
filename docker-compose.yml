@@ -1,6 +1,7 @@
-x-service-defaults: &service_defaults
-  networks:
-    - marcello
+x-service-defaults:
+  # networks:
+  #   - marcello
+  &service_defaults
   restart: unless-stopped
   logging:
     driver: json-file
@@ -12,16 +13,31 @@ services:
   saprouter:
     <<: *service_defaults
     container_name: saprouter
-    ports:
-      - "3299:3299"
+    network_mode: "host"
     build:
       context: ./saprouter
       dockerfile: Dockerfile
     dns:
       - 192.168.42.3
       - 8.8.4.4
+    expose:
+      - 3299
     volumes:
       - ./saprouter/saprouttab:/home/saprouter/saprouttab
-
+  sapcc:
+    <<: *service_defaults
+    container_name: sapcc
+    build:
+      context: ./sapcc
+      dockerfile: Dockerfile
+    ports:
+      - "8443:8443"
+    hostname: mysapcc
+    volumes:
+      - ./sapcc/config:/opt/sap/scc/config
+      - ./sapcc/scc_config:/opt/sap/scc/scc_config
+      - ./sapcc/log:/opt/sap/scc/log
+    networks:
+      - marcello
 networks:
   marcello:

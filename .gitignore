@@ -2,3 +2,6 @@ ydnspass.env
 .env
 website
 saprouter/binaries/*
+sapcc/log/
+sapcc/config/
+sapcc/scc_config/
