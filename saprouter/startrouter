@@ -1,4 +1,5 @@
 #!/bin/bash
-mkfifo saprouterlog
+mkfifo saprouterlog saproutertrace
 cat saprouterlog &
-saprouter -r -G saprouterlog
+cat saproutertrace >&2 &
+exec saprouter -r -G saprouterlog -T saproutertrace -V 2
