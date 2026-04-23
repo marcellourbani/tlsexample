@@ -13,17 +13,19 @@ services:
   saprouter:
     <<: *service_defaults
     container_name: saprouter
-    network_mode: "host"
+    # network_mode: "host"
     build:
       context: ./saprouter
       dockerfile: Dockerfile
     dns:
       - 192.168.42.3
       - 8.8.4.4
-    expose:
-      - 3299
+    ports:
+      - "3299:3299"
     volumes:
       - ./saprouter/saprouttab:/home/saprouter/saprouttab
+    networks:
+      - marcello
   sapcc:
     <<: *service_defaults
     container_name: sapcc
